@@ -5,6 +5,10 @@
 #include "Witch.h"
 #include "Map.h"
 
+#define FPS				(60)
+#define MIN_DELTA_TIME	(1.0f / FPS)
+#define MAX_DELTA_TIME	(0.05f)
+
 /*シングルトンオブジェクトの作成*/
 SoundManager soundManager;
 
@@ -30,13 +34,16 @@ Game::Game(int width, int height)
 	: window_width(width)
 	, window_height(height)
 	, isRunning(false)
-	, m_direct2D(nullptr)
+	, p_direct2D(nullptr)
 {
-	m_direct2D = new Direct2D();
+	p_direct2D = new Direct2D();
 }
 
 HRESULT Game::Initialize()
 {
+	QueryPerformanceFrequency(&m_timeFreq);
+	QueryPerformanceCounter(&m_timeBefore);
+
 	/*COMの初期化*/
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
 
@@ -65,7 +72,7 @@ HRESULT Game::Initialize()
 		nullptr
 	);
 
-	hr = m_direct2D->Initialize();
+	hr = p_direct2D->Initialize();
 	if (hr != S_OK)
 	{
 		return hr;
@@ -91,8 +98,8 @@ void Game::QuitGame()
 
 	CoUninitialize();
 
-	delete m_direct2D;
-	m_direct2D = nullptr;
+	delete p_direct2D;
+	p_direct2D = nullptr;
 }
 
 void Game::RunLoop()
@@ -131,15 +138,24 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
+	do
+	{
+		QueryPerformanceCounter(&m_timeNow);
+		m_deltaTime = static_cast<float>((m_timeNow.QuadPart - m_timeBefore.QuadPart) / static_cast<float>(m_timeFreq.QuadPart));
+	} while (m_deltaTime < MIN_DELTA_TIME);
+
+	m_timeBefore = m_timeNow;
+	if (m_deltaTime > MAX_DELTA_TIME) { m_deltaTime = MAX_DELTA_TIME; }
+
 	for (Actor* actor : m_actors)
 	{
-		actor->UpdateActor(0.05f);
+		actor->UpdateActor(m_deltaTime);
 	}
 }
 
 void Game::GenerateOutput()
 {
-	m_direct2D->Render();
+	p_direct2D->Render();
 }
 
 void Game::AddActor(Actor* actor)
@@ -155,5 +171,5 @@ void Game::RemoveActor(Actor* actor)
 
 void Game::LoadData()
 {
-	m_witch = new Witch(this);
+	p_witch = new Witch(this);
 }

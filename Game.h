@@ -22,7 +22,7 @@ public:
 
 	Direct2D* GetDitect2DPtr()
 	{
-		if (m_direct2D) { return m_direct2D; }
+		if (p_direct2D) { return p_direct2D; }
 		else
 		{
 			std::cout << "No Direct2D." << std::endl;
@@ -44,9 +44,15 @@ private:
 	MSG msg;
 	static HWND hwnd;
 	int window_width, window_height;
-	Direct2D* m_direct2D;
+	Direct2D* p_direct2D;
 
 	std::vector<Actor*> m_actors;
-	Witch* m_witch;
-	Map* m_map;
+	Witch* p_witch;
+	Map* p_map;
+
+	/*FPSêßå‰ópÇÃïœêî*/
+	LARGE_INTEGER m_timeFreq;
+	LARGE_INTEGER m_timeBefore;
+	LARGE_INTEGER m_timeNow;
+	float m_deltaTime;
 };

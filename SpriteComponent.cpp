@@ -19,7 +19,7 @@ SpriteComponent::~SpriteComponent()
 void SpriteComponent::UpdateComponent(float deltaTime)
 {
 	wait += deltaTime;
-	if (wait > 1)
+	if (wait > 0.5f)
 	{
 		int next = m_currentSprite + 1;
 		if (next >= m_maxSprite) { next = 0; }
