@@ -76,6 +76,7 @@ ID2D1Bitmap* Direct2D::LoadImageFile(LPCWSTR path)
 	if (iter != m_bitmaps.end())
 	{
 		outBitmap = iter->second;
+		std::cout << "Found in cache." << std::endl;
 		return outBitmap;
 	}
 
@@ -129,7 +130,7 @@ ID2D1Bitmap* Direct2D::LoadImageFile(LPCWSTR path)
 	m_bitmaps.emplace(path, outBitmap);
 	if (outBitmap == nullptr)
 	{
-		std::cout << "NULLPTR" << std::endl;
+		std::cout << "Error:5 Bitmap is null." << std::endl;
 	}
 
 	return outBitmap;

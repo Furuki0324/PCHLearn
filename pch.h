@@ -4,6 +4,7 @@
 #pragma comment(lib, "dwrite.lib")
 
 #include <Windows.h>
+#include <fstream>
 #include <vector>
 #include <unordered_map>
 #include <string>

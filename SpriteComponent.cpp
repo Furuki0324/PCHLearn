@@ -6,6 +6,8 @@
 SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
 	:Component(owner)
 	,m_updateOrder(updateOrder)
+	,m_currentSprite(0)
+	,m_isAnimation(false)
 {
 	m_owner->GetGame()->GetDitect2DPtr()->AddSpriteComponent(this);
 	wait = 0;
@@ -18,13 +20,16 @@ SpriteComponent::~SpriteComponent()
 
 void SpriteComponent::UpdateComponent(float deltaTime)
 {
-	wait += deltaTime;
-	if (wait > 0.5f)
+	if (m_isAnimation)
 	{
-		int next = m_currentSprite + 1;
-		if (next >= m_maxSprite) { next = 0; }
-		SetSprite(next);
-		wait = 0;
+		wait += deltaTime;
+		if (wait > 0.5f)
+		{
+			int next = m_currentSprite + 1;
+			if (next >= m_maxSprite) { next = 0; }
+			SetSprite(next);
+			wait = 0;
+		}
 	}
 }
 
@@ -36,19 +41,20 @@ void SpriteComponent::Render(ID2D1HwndRenderTarget* pRT)
 
 		/*ビットマップの中から描画する部分を指定*/
 		D2D1_RECT_F clippingRect = D2D1::RectF(
-			m_spriteWidth * (m_currentSprite % m_numSpriteWidth),
-			m_spriteHeight * (m_currentSprite / m_numSpriteWidth),
-			m_spriteWidth * (m_currentSprite % m_numSpriteWidth) + m_spriteWidth,
-			m_spriteHeight * (m_currentSprite / m_numSpriteWidth) + m_spriteHeight
+			static_cast<float>(m_spriteWidth * (m_currentSprite % m_numSpriteWidth)),
+			static_cast<float>(m_spriteHeight * (m_currentSprite / m_numSpriteWidth)),
+			static_cast<float>(m_spriteWidth * (m_currentSprite % m_numSpriteWidth) + m_spriteWidth),
+			static_cast<float>(m_spriteHeight * (m_currentSprite / m_numSpriteWidth) + m_spriteHeight)
 		);
 
+		/*アクターの座標がスプライトの中心になるように調節して描画*/
 		pRT->DrawBitmap(
 			m_bitmap,
 			D2D1::RectF(
-				ownerLocation.x,
-				ownerLocation.y,
-				ownerLocation.x + m_spriteWidth,
-				ownerLocation.y + m_spriteHeight
+				ownerLocation.x - static_cast<float>(m_spriteWidth / 2.0f),
+				ownerLocation.y - static_cast<float>(m_spriteHeight / 2.0f),
+				ownerLocation.x + static_cast<float>(m_spriteWidth / 2.0f),
+				ownerLocation.y + static_cast<float>(m_spriteHeight / 2.0f)
 			),
 			1.0f,
 			D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
@@ -69,6 +75,8 @@ void SpriteComponent::SetBitmap(ID2D1Bitmap* bitmap, int spriteWidth, int sprite
 	m_numSpriteHeight = size.height / spriteHeight;
 
 	m_maxSprite = m_numSpriteWidth * m_numSpriteHeight;
+
+	std::cout << "Size:" << m_spriteWidth << " Max:" << m_maxSprite << std::endl;
 }
 
 void SpriteComponent::SetSprite(int num)

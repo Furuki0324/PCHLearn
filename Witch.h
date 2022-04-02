@@ -9,4 +9,11 @@ class Witch : public Actor
 {
 public:
 	Witch(Game* game);
+
+private:
+
+public:
+
+private:
+	SpriteComponent* p_spriteComponent;
 };

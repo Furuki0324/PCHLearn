@@ -10,6 +10,8 @@ public:
 
 	int GetUpdateOrder() { return m_updateOrder; }
 
+	void SetAnimation(bool isAnimation) { m_isAnimation = isAnimation; }
+
 	/*
 	Bitmap -> ‘fŞ‚ª‚Ğ‚Æ‚Ü‚Æ‚ß‚É‚³‚ê‚½‰æ‘œ
 	Sprite -> Bitmap‚Ì’†‚ÅØ‚èo‚·‰æ‘œ‚¨‚æ‚Ñ‚»‚Ì”Ô†
@@ -31,5 +33,6 @@ private:
 	int m_numSpriteWidth;
 	int m_numSpriteHeight;
 
+	bool m_isAnimation;
 	float wait;
 };

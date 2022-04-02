@@ -172,4 +172,5 @@ void Game::RemoveActor(Actor* actor)
 void Game::LoadData()
 {
 	p_witch = new Witch(this);
+	p_map = new Map(this);
 }
