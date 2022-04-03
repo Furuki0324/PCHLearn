@@ -3,7 +3,7 @@
 #include "SoundManager.h"
 #include "Actor.h"
 #include "Witch.h"
-#include "Map.h"
+#include "MapComponent.h"
 
 #define FPS				(60)
 #define MIN_DELTA_TIME	(1.0f / FPS)
@@ -172,5 +172,7 @@ void Game::RemoveActor(Actor* actor)
 void Game::LoadData()
 {
 	p_witch = new Witch(this);
-	p_map = new Map(this);
+
+	Actor* temp = new Actor(this);
+	MapComponent* map = new MapComponent(temp);
 }

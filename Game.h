@@ -3,7 +3,6 @@
 /*‘O•ûéŒ¾*/
 class Actor;
 class Witch;
-class Map;
 class Direct2D;
 
 class Game
@@ -48,7 +47,6 @@ private:
 
 	std::vector<Actor*> m_actors;
 	Witch* p_witch;
-	Map* p_map;
 
 	/*FPS§Œä—p‚Ì•Ï”*/
 	LARGE_INTEGER m_timeFreq;

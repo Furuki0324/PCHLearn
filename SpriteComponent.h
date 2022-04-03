@@ -18,11 +18,11 @@ public:
 	*/
 	void SetBitmap(ID2D1Bitmap* bitmap, int spriteWidth, int spriteHeight);
 	void SetSprite(int num);
-	void Render(ID2D1HwndRenderTarget* pRT);
+	virtual void Render(ID2D1HwndRenderTarget* pRT);
 
 private:
 
-private:
+protected:
 	int m_updateOrder;
 	ID2D1Bitmap* m_bitmap;
 
