@@ -8,7 +8,7 @@ class Actor;
 class MapComponent : public SpriteComponent
 {
 public:
-	MapComponent(Actor* owner, int drawOrder = 0);
+	MapComponent(Actor* owner, const char* csvPath, int drawOrder = 0);
 	~MapComponent();
 	void SplitCSVData(std::ifstream& ifs);
 

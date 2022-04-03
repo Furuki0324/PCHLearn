@@ -10,12 +10,12 @@
 #define NUM_CHIP_WIDTH	(MAP_WIDTH / CHIP_WIDTH)
 #define NUM_CHIP_HEIGHT	(MAP_HEIGHT / CHIP_HEIGHT)
 
-MapComponent::MapComponent(Actor* owner, int drawOrder)
+MapComponent::MapComponent(Actor* owner, const char* csvPath, int drawOrder)
 	:SpriteComponent(owner, drawOrder)
 {
-	p_mapData = new int[(MAP_WIDTH / CHIP_WIDTH) * (MAP_HEIGHT / CHIP_HEIGHT)];
+	p_mapData = new int[NUM_CHIP_WIDTH * NUM_CHIP_HEIGHT];
 
-	std::ifstream ifs("./CSV/mapchip.csv");
+	std::ifstream ifs(csvPath);
 	if (!ifs)
 	{
 		std::cout << "No CSV file found." << std::endl;
@@ -69,6 +69,8 @@ void MapComponent::Render(ID2D1HwndRenderTarget* pRT)
 		for (int width = 0; width < NUM_CHIP_WIDTH; ++width)
 		{
 			int index = p_mapData[height * NUM_CHIP_WIDTH + width];
+			/*値が0の場合はスキップ*/
+			if (index == 0) { continue; }
 			if (index > m_maxSprite) { index = 0; }
 
 			/*ビットマップの中から描画する部分を指定*/
@@ -82,10 +84,10 @@ void MapComponent::Render(ID2D1HwndRenderTarget* pRT)
 			pRT->DrawBitmap(
 				m_bitmap,
 				D2D1::RectF(
-					CHIP_WIDTH * width,
-					CHIP_HEIGHT * height,
-					CHIP_WIDTH * (width + 1),
-					CHIP_HEIGHT * (height + 1)
+					static_cast<float>(CHIP_WIDTH * width),
+					static_cast<float>(CHIP_HEIGHT * height),
+					static_cast<float>(CHIP_WIDTH * (width + 1)),
+					static_cast<float>(CHIP_HEIGHT * (height + 1))
 				),
 				1.0f,
 				D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,

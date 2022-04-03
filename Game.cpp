@@ -174,5 +174,6 @@ void Game::LoadData()
 	p_witch = new Witch(this);
 
 	Actor* temp = new Actor(this);
-	MapComponent* map = new MapComponent(temp);
+	MapComponent* map = new MapComponent(temp, "./CSV/mapchip.csv", 0);
+	MapComponent* object = new MapComponent(temp, "./CSV/mapchip_object.csv", 1);
 }
