@@ -71,6 +71,7 @@ void MapComponent::Render(ID2D1HwndRenderTarget* pRT)
 			int index = p_mapData[height * NUM_CHIP_WIDTH + width];
 			/*値が0の場合はスキップ*/
 			if (index == 0) { continue; }
+			/*もし範囲外を指定していた場合は明らかに間違ってる画像を表示*/
 			if (index > m_maxSprite) { index = 0; }
 
 			/*ビットマップの中から描画する部分を指定*/
@@ -84,10 +85,10 @@ void MapComponent::Render(ID2D1HwndRenderTarget* pRT)
 			pRT->DrawBitmap(
 				m_bitmap,
 				D2D1::RectF(
-					static_cast<float>(CHIP_WIDTH * width),
-					static_cast<float>(CHIP_HEIGHT * height),
-					static_cast<float>(CHIP_WIDTH * (width + 1)),
-					static_cast<float>(CHIP_HEIGHT * (height + 1))
+					static_cast<float>(m_ownerLocation.x + CHIP_WIDTH * width),
+					static_cast<float>(m_ownerLocation.y + CHIP_HEIGHT * height),
+					static_cast<float>(m_ownerLocation.x + CHIP_WIDTH * (width + 1)),
+					static_cast<float>(m_ownerLocation.y + CHIP_HEIGHT * (height + 1))
 				),
 				1.0f,
 				D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,

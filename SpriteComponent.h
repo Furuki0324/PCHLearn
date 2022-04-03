@@ -24,6 +24,7 @@ private:
 
 protected:
 	int m_updateOrder;
+	Vector2 m_ownerLocation;
 	ID2D1Bitmap* m_bitmap;
 
 	int m_currentSprite;

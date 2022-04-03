@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Direct2D.h"
+#include "Camera.h"
 #include "SoundManager.h"
 #include "Actor.h"
 #include "Witch.h"
@@ -8,12 +9,15 @@
 #define FPS				(60)
 #define MIN_DELTA_TIME	(1.0f / FPS)
 #define MAX_DELTA_TIME	(0.05f)
+#define CAMERA_WIDTH	(640)
+#define CAMERA_HEIGHT	(480)
 
 /*シングルトンオブジェクトの作成*/
 SoundManager soundManager;
 
 /*static変数の実体*/
 HWND Game::hwnd = nullptr;
+Vector2 Game::camera = Vector2::Zero;
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT uMsg, WPARAM wparam, LPARAM lparam)
 {
@@ -35,8 +39,11 @@ Game::Game(int width, int height)
 	, window_height(height)
 	, isRunning(false)
 	, p_direct2D(nullptr)
+	, p_camera(nullptr)
 {
+	camera = Vector2{ width / 2.0f, height / 2.0f };
 	p_direct2D = new Direct2D();
+	p_camera = new Camera(window_width, window_height);
 }
 
 HRESULT Game::Initialize()
@@ -100,6 +107,9 @@ void Game::QuitGame()
 
 	delete p_direct2D;
 	p_direct2D = nullptr;
+
+	delete p_camera;
+	p_camera = nullptr;
 }
 
 void Game::RunLoop()
@@ -147,6 +157,9 @@ void Game::UpdateGame()
 	m_timeBefore = m_timeNow;
 	if (m_deltaTime > MAX_DELTA_TIME) { m_deltaTime = MAX_DELTA_TIME; }
 
+	/*フォロー対象のアクターが設定されている場合、1フレーム前の位置にカメラが移動する*/
+	p_camera->UpdateCamera();
+
 	for (Actor* actor : m_actors)
 	{
 		actor->UpdateActor(m_deltaTime);
@@ -172,8 +185,30 @@ void Game::RemoveActor(Actor* actor)
 void Game::LoadData()
 {
 	p_witch = new Witch(this);
+	p_witch->SetActorWorldLocation(Vector2{ 50.0f,60.0f });
+	p_camera->SetFollowTarget(p_witch);
 
 	Actor* temp = new Actor(this);
 	MapComponent* map = new MapComponent(temp, "./CSV/mapchip.csv", 0);
 	MapComponent* object = new MapComponent(temp, "./CSV/mapchip_object.csv", 1);
+}
+
+const Vector2& Game::GetCameraLocation()
+{
+	if (p_camera) { return p_camera->GetLocation(); }
+	else
+	{
+		std::cout << "No Camera." << std::endl;
+		return Vector2::Zero;
+	}
+}
+
+const Vector2& Game::GetCameraOrigin()
+{
+	if (p_camera) { return p_camera->GetOrigin(); }
+	else
+	{
+		std::cout << "No Camera." << std::endl;
+		return Vector2::Zero;
+	}
 }

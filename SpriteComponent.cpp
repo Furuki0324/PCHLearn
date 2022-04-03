@@ -20,6 +20,8 @@ SpriteComponent::~SpriteComponent()
 
 void SpriteComponent::UpdateComponent(float deltaTime)
 {
+	m_ownerLocation = m_owner->GetActorScreenLocation();
+
 	if (m_isAnimation)
 	{
 		wait += deltaTime;
@@ -37,8 +39,6 @@ void SpriteComponent::Render(ID2D1HwndRenderTarget* pRT)
 {
 	if (m_bitmap)
 	{
-		Vector2 ownerLocation = m_owner->GetActorLocation();
-
 		/*ビットマップの中から描画する部分を指定*/
 		D2D1_RECT_F clippingRect = D2D1::RectF(
 			static_cast<float>(m_spriteWidth * (m_currentSprite % m_numSpriteWidth)),
@@ -51,10 +51,10 @@ void SpriteComponent::Render(ID2D1HwndRenderTarget* pRT)
 		pRT->DrawBitmap(
 			m_bitmap,
 			D2D1::RectF(
-				ownerLocation.x - static_cast<float>(m_spriteWidth / 2.0f),
-				ownerLocation.y - static_cast<float>(m_spriteHeight / 2.0f),
-				ownerLocation.x + static_cast<float>(m_spriteWidth / 2.0f),
-				ownerLocation.y + static_cast<float>(m_spriteHeight / 2.0f)
+				m_ownerLocation.x - static_cast<float>(m_spriteWidth / 2.0f),
+				m_ownerLocation.y - static_cast<float>(m_spriteHeight / 2.0f),
+				m_ownerLocation.x + static_cast<float>(m_spriteWidth / 2.0f),
+				m_ownerLocation.y + static_cast<float>(m_spriteHeight / 2.0f)
 			),
 			1.0f,
 			D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,

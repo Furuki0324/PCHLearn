@@ -140,6 +140,11 @@ public:
 		return Vector2(a.x * scalar, a.y * scalar);
 	}
 
+	friend Vector2 operator/(const Vector2& a, float divide)
+	{
+		return Vector2(a.x / divide, a.y / divide);
+	}
+
 	Vector2& operator+=(const Vector2& add)
 	{
 		x += add.x;
@@ -158,6 +163,13 @@ public:
 	{
 		x *= scalar;
 		y *= scalar;
+		return *this;
+	}
+
+	Vector2& operator/=(float divide)
+	{
+		x /= divide;
+		y /= divide;
 		return *this;
 	}
 

@@ -10,6 +10,4 @@ Witch::Witch(Game* game)
 	p_spriteComponent->SetAnimation(true);
 	ID2D1Bitmap* bitmap = GetGame()->GetDitect2DPtr()->LoadImageFile(L"./Image/witch.png");
 	if (bitmap != nullptr) { p_spriteComponent->SetBitmap(bitmap, 32, 32); }
-
-	SetActorLocation(Vector2{ 50.0f, 30.0f });
 }

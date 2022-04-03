@@ -4,6 +4,7 @@
 class Actor;
 class Witch;
 class Direct2D;
+class Camera;
 
 class Game
 {
@@ -15,6 +16,8 @@ public:
 	void RunLoop();
 
 	static HWND GetHwnd() { return hwnd; }
+	static Vector2 GetCamera() { return camera; }
+
 
 	void AddActor(Actor* actor);
 	void RemoveActor(Actor* actor);
@@ -29,6 +32,19 @@ public:
 		}
 	}
 
+	Camera* GetCameraPtr()
+	{
+		if (p_camera) { return p_camera; }
+		else
+		{
+			std::cout << "No Camera." << std::endl;
+			return nullptr;
+		}
+	}
+
+	const Vector2& GetCameraLocation();
+	const Vector2& GetCameraOrigin();
+
 private:
 	void ProcessInput();
 	void UpdateGame();
@@ -42,8 +58,10 @@ public:
 private:
 	MSG msg;
 	static HWND hwnd;
+	static Vector2 camera;
 	int window_width, window_height;
 	Direct2D* p_direct2D;
+	Camera* p_camera;
 
 	std::vector<Actor*> m_actors;
 	Witch* p_witch;
