@@ -31,9 +31,7 @@ public:
 private:
 	const Vector2 LocationWorldToScreen(const Vector2& worldLocation, const Vector2& camera);
 
-public:
-
-private:
+protected:
 	Game* m_game;
 	Vector2 m_worldLocation;
 	Vector2 m_screenLocation;
