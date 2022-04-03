@@ -16,8 +16,6 @@ public:
 	void RunLoop();
 
 	static HWND GetHwnd() { return hwnd; }
-	static Vector2 GetCamera() { return camera; }
-
 
 	void AddActor(Actor* actor);
 	void RemoveActor(Actor* actor);
@@ -58,7 +56,6 @@ public:
 private:
 	MSG msg;
 	static HWND hwnd;
-	static Vector2 camera;
 	int window_width, window_height;
 	Direct2D* p_direct2D;
 	Camera* p_camera;

@@ -17,20 +17,22 @@ void Witch::UpdateActor(float deltaTime)
 	Actor::UpdateActor(deltaTime);
 
 	Vector2 direction = Vector2::Zero;
+	BYTE key[256];
+	GetKeyboardState(key);
 
-	if (GetKeyState(VK_A) & 0x8000)
+	if (key[VK_A] & 0x80)
 	{
 		direction.x -= 1;
 	}
-	if (GetKeyState(VK_D) & 0x8000)
+	if (key[VK_D] & 0x80)
 	{
 		direction.x += 1;
 	}
-	if (GetKeyState(VK_W) & 0x8000)
+	if (key[VK_W] & 0x80)
 	{
 		direction.y -= 1;
 	}
-	if (GetKeyState(VK_S) & 0x8000)
+	if (key[VK_S] & 0x80)
 	{
 		direction.y += 1;
 	}

@@ -17,7 +17,6 @@ SoundManager soundManager;
 
 /*static•Ï”‚ÌŽÀ‘Ì*/
 HWND Game::hwnd = nullptr;
-Vector2 Game::camera = Vector2::Zero;
 
 LRESULT CALLBACK MainWndProc(HWND hwnd, UINT uMsg, WPARAM wparam, LPARAM lparam)
 {
@@ -41,7 +40,6 @@ Game::Game(int width, int height)
 	, p_direct2D(nullptr)
 	, p_camera(nullptr)
 {
-	camera = Vector2{ width / 2.0f, height / 2.0f };
 	p_direct2D = new Direct2D();
 	p_camera = new Camera(window_width, window_height);
 }
@@ -140,7 +138,10 @@ void Game::ProcessInput()
 		DispatchMessage(&msg);
 	}
 
-	if (GetKeyState(VK_ESCAPE) & 0x8000)
+	BYTE key[256];
+	GetKeyboardState(key);
+
+	if (key[VK_ESCAPE] & 0x80)
 	{
 		isRunning = false;
 	}
@@ -185,7 +186,7 @@ void Game::RemoveActor(Actor* actor)
 void Game::LoadData()
 {
 	p_witch = new Witch(this);
-	p_witch->SetActorWorldLocation(Vector2{ 50.0f,60.0f });
+	p_witch->SetActorWorldLocation(Vector2{ 500.0f,600.0f });
 	p_camera->SetFollowTarget(p_witch);
 
 	Actor* temp = new Actor(this);

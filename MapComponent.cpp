@@ -3,8 +3,8 @@
 #include "Game.h"
 #include "Direct2D.h"
 
-#define MAP_WIDTH		(640)
-#define MAP_HEIGHT		(480)
+#define MAP_WIDTH		(1280)
+#define MAP_HEIGHT		(960)
 #define CHIP_WIDTH		(16)
 #define CHIP_HEIGHT		(16)
 #define NUM_CHIP_WIDTH	(MAP_WIDTH / CHIP_WIDTH)
