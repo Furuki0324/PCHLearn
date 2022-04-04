@@ -4,6 +4,7 @@
 
 Actor::Actor(Game* game)
 	:m_game(game)
+	,m_moveSpeed(0.0f)
 	,m_worldLocation(Vector2::Zero)
 	,m_screenLocation(Vector2::Zero)
 {
@@ -20,7 +21,7 @@ Actor::~Actor()
 	}
 }
 
-void Actor::UpdateActor(float deltaTime)
+void Actor::UpdateActor(float deltaTime, const BYTE* input)
 {
 	/*コンポーネントが更新される前にスクリーン座標に変換*/
 	m_screenLocation = LocationWorldToScreen(m_worldLocation, m_game->GetCameraOrigin());

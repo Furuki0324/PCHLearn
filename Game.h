@@ -56,7 +56,8 @@ public:
 private:
 	MSG msg;
 	static HWND hwnd;
-	int window_width, window_height;
+	int windowWidth, windowHeight;
+	BYTE m_input[256];
 	Direct2D* p_direct2D;
 	Camera* p_camera;
 

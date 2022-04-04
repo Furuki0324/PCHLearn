@@ -12,30 +12,33 @@ Witch::Witch(Game* game)
 	if (bitmap != nullptr) { p_spriteComponent->SetBitmap(bitmap, 32, 32); }
 }
 
-void Witch::UpdateActor(float deltaTime)
+void Witch::UpdateActor(float deltaTime, const BYTE* input)
 {
-	Actor::UpdateActor(deltaTime);
+	Actor::UpdateActor(deltaTime, input);
 
 	Vector2 direction = Vector2::Zero;
-	BYTE key[256];
-	GetKeyboardState(key);
 
-	if (key[VK_A] & 0x80)
+	if (input[VK_5] & 0x80)
+	{
+		m_moveSpeed = 5.0f;
+	}
+
+	if (input[VK_A] & 0x80)
 	{
 		direction.x -= 1;
 	}
-	if (key[VK_D] & 0x80)
+	if (input[VK_D] & 0x80)
 	{
 		direction.x += 1;
 	}
-	if (key[VK_W] & 0x80)
+	if (input[VK_W] & 0x80)
 	{
 		direction.y -= 1;
 	}
-	if (key[VK_S] & 0x80)
+	if (input[VK_S] & 0x80)
 	{
 		direction.y += 1;
 	}
 
-	m_worldLocation += direction;
+	m_worldLocation += direction * m_moveSpeed;
 }

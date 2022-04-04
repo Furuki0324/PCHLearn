@@ -6,11 +6,11 @@
 #include "Witch.h"
 #include "MapComponent.h"
 
-#define FPS				(60)
-#define MIN_DELTA_TIME	(1.0f / FPS)
-#define MAX_DELTA_TIME	(0.05f)
-#define CAMERA_WIDTH	(640)
-#define CAMERA_HEIGHT	(480)
+constexpr float FPS = (60.0f);
+constexpr float MIN_DELTA_TIME = (1.0f / FPS);
+constexpr float MAX_DELTA_TIME = (0.05f);
+constexpr int STAGE_WIDTH = (1280);
+constexpr int STAGE_HEIGHT = (960);
 
 /*シングルトンオブジェクトの作成*/
 SoundManager soundManager;
@@ -34,14 +34,14 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT uMsg, WPARAM wparam, LPARAM lparam)
 }
 
 Game::Game(int width, int height)
-	: window_width(width)
-	, window_height(height)
+	: windowWidth(width)
+	, windowHeight(height)
 	, isRunning(false)
 	, p_direct2D(nullptr)
 	, p_camera(nullptr)
 {
 	p_direct2D = new Direct2D();
-	p_camera = new Camera(window_width, window_height);
+	p_camera = new Camera(windowWidth, windowHeight, STAGE_WIDTH, STAGE_HEIGHT);
 }
 
 HRESULT Game::Initialize()
@@ -60,7 +60,7 @@ HRESULT Game::Initialize()
 	w.hInstance = GetModuleHandle(0);
 	RegisterClassEx(&w);
 
-	RECT wrc = { 0,0,window_width, window_height };
+	RECT wrc = { 0,0,windowWidth, windowHeight };
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	hwnd = CreateWindow(
@@ -139,11 +139,20 @@ void Game::ProcessInput()
 	}
 
 	BYTE key[256];
-	GetKeyboardState(key);
+	GetKeyboardState(m_input);
 
-	if (key[VK_ESCAPE] & 0x80)
+	if (m_input[VK_ESCAPE] & 0x80)
 	{
 		isRunning = false;
+	}
+
+	if (m_input[VK_R] & 0x80)
+	{
+		p_camera->SetFollowTarget(nullptr);
+	}
+	if (m_input[VK_T] & 0x80)
+	{
+		p_camera->SetFollowTarget(p_witch);
 	}
 }
 
@@ -163,7 +172,7 @@ void Game::UpdateGame()
 
 	for (Actor* actor : m_actors)
 	{
-		actor->UpdateActor(m_deltaTime);
+		actor->UpdateActor(m_deltaTime, m_input);
 	}
 }
 
@@ -186,6 +195,7 @@ void Game::RemoveActor(Actor* actor)
 void Game::LoadData()
 {
 	p_witch = new Witch(this);
+	p_witch->SetActorMoveSpeed(1.0f);
 	p_witch->SetActorWorldLocation(Vector2{ 500.0f,600.0f });
 	p_camera->SetFollowTarget(p_witch);
 

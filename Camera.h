@@ -6,7 +6,7 @@ class Actor;
 class Camera
 {
 public:
-	Camera(unsigned int width, unsigned int height);
+	Camera(unsigned int windowWidth, unsigned int windowHeight, unsigned int stageWidth, unsigned int stageHeight);
 
 	void UpdateCamera();
 
@@ -15,8 +15,10 @@ public:
 	void SetFollowTarget(Actor* actor);
 
 private:
-	unsigned int m_width;
-	unsigned int m_height;
+	unsigned int m_windowWidth;
+	unsigned int m_windowHeight;
+	unsigned int m_stageWidth;
+	unsigned int m_stageHeight;
 	Vector2 m_location;
 	Vector2 m_origin;
 	Actor* p_followTarget;
