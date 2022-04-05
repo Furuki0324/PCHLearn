@@ -2,6 +2,7 @@
 
 /*‘O•ûéŒ¾*/
 class Application;
+class Direct2D;
 
 class BaseScene
 {
@@ -10,7 +11,12 @@ public:
 		:p_app(app) 
 	{};
 
-	void RunLoop();
+	virtual void RunLoop() {};
+	virtual void ProcessInput() {};
+	virtual void UpdateScene() {};
+
+	const Application* GetApplication() { return p_app; }
+	Direct2D* const GetDirect2D();
 
 protected:
 

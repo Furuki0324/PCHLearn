@@ -8,14 +8,13 @@ Witch::Witch(Game* game)
 {
 	p_spriteComponent = new SpriteComponent(this);
 	p_spriteComponent->SetAnimation(true);
-	ID2D1Bitmap* bitmap = GetGame()->GetDitect2DPtr()->LoadImageFile(L"./Image/witch.png");
+	//ID2D1Bitmap* bitmap = GetGame()->GetDitect2DPtr()->LoadImageFile(L"./Image/witch.png");
+	ID2D1Bitmap* bitmap = GetGame()->GetDirect2D()->LoadImageFile(L"./Image/witch.png");
 	if (bitmap != nullptr) { p_spriteComponent->SetBitmap(bitmap, 32, 32); }
 }
 
-void Witch::UpdateActor(float deltaTime, const BYTE* input)
+void Witch::ProcessInput(const BYTE* input)
 {
-	Actor::UpdateActor(deltaTime, input);
-
 	Vector2 direction = Vector2::Zero;
 
 	if (input[VK_5] & 0x80)
@@ -41,4 +40,11 @@ void Witch::UpdateActor(float deltaTime, const BYTE* input)
 	}
 
 	m_worldLocation += direction * m_moveSpeed;
+}
+
+void Witch::UpdateActor(float deltaTime, const BYTE* input)
+{
+	Actor::UpdateActor(deltaTime, input);
+
+
 }

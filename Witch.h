@@ -10,6 +10,7 @@ class Witch : public Actor
 public:
 	Witch(Game* game);
 
+	void ProcessInput(const BYTE* input) override;
 	void UpdateActor(float deltaTime, const BYTE* input) override;
 
 private:

@@ -7,6 +7,7 @@ class Camera
 {
 public:
 	Camera(unsigned int windowWidth, unsigned int windowHeight, unsigned int stageWidth, unsigned int stageHeight);
+	~Camera();
 
 	void UpdateCamera();
 

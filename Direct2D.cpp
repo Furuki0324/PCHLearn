@@ -1,5 +1,6 @@
 #include "Direct2D.h"
 #include "Game.h"
+#include "Application.h"
 #include "SpriteComponent.h"
 
 Direct2D::Direct2D()
@@ -28,7 +29,7 @@ HRESULT Direct2D::Initialize()
 	HRESULT hr = S_OK;
 
 	RECT rect;
-	GetClientRect(Game::GetHwnd(), &rect);
+	GetClientRect(Application::GetHwnd(), &rect);
 
 	UINT window_width = rect.right - rect.left;
 	UINT window_height = rect.bottom - rect.top;
@@ -48,7 +49,7 @@ HRESULT Direct2D::Initialize()
 	hr = pD2DFactory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(
-			Game::GetHwnd(),
+			Application::GetHwnd(),
 			D2D1::SizeU(window_width, window_height)
 		),
 		&pRT
@@ -138,6 +139,7 @@ ID2D1Bitmap* Direct2D::LoadImageFile(LPCWSTR path)
 
 void Direct2D::Render()
 {
+	//std::cout << "Target:" << m_spriteComponents.size() << std::endl;
 	pRT->BeginDraw();
 	pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue));
 

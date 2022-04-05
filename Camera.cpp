@@ -10,6 +10,11 @@ Camera::Camera(unsigned int windowWidth, unsigned int windowHeight, unsigned int
 	,m_stageHeight(stageHeight)
 {}
 
+Camera::~Camera()
+{
+
+}
+
 void Camera::UpdateCamera()
 {
 	if (p_followTarget)

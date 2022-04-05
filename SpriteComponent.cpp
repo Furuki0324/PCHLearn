@@ -9,13 +9,13 @@ SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
 	,m_currentSprite(0)
 	,m_isAnimation(false)
 {
-	m_owner->GetGame()->GetDitect2DPtr()->AddSpriteComponent(this);
+	m_owner->GetGame()->GetDirect2D()->AddSpriteComponent(this);
 	wait = 0;
 }
 
 SpriteComponent::~SpriteComponent()
 {
-	m_owner->GetGame()->GetDitect2DPtr()->RemoveSpriteComponent(this);
+	m_owner->GetGame()->GetDirect2D()->RemoveSpriteComponent(this);
 }
 
 void SpriteComponent::UpdateComponent(float deltaTime)
@@ -59,6 +59,10 @@ void SpriteComponent::Render(ID2D1HwndRenderTarget* pRT)
 			1.0f,
 			D2D1_BITMAP_INTERPOLATION_MODE_NEAREST_NEIGHBOR,
 			&clippingRect);
+	}
+	else
+	{
+		std::cout << "No bitmap was set." << std::endl;
 	}
 }
 

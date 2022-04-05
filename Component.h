@@ -7,7 +7,7 @@ class Component
 {
 public:
 	Component(Actor* owner);
-	~Component();
+	virtual ~Component();
 
 	virtual void UpdateComponent(float deltaTime);
 

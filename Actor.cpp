@@ -14,7 +14,6 @@ Actor::Actor(Game* game)
 Actor::~Actor()
 {
 	m_game->RemoveActor(this);
-
 	while (!m_components.empty())
 	{
 		delete m_components.back();
@@ -45,5 +44,9 @@ void Actor::AddComponent(Component* component)
 void Actor::RemoveComponent(Component* component)
 {
 	auto iter = std::find(m_components.begin(), m_components.end(), component);
-	m_components.erase(iter);
+	if (iter != m_components.end()) 
+	{
+		m_components.erase(iter); 
+		std::cout << "erase component.\n";
+	}
 }

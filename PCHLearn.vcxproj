@@ -158,10 +158,13 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="Title.h" />
     <ClInclude Include="Witch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Direct2D.cpp" />
@@ -174,6 +177,7 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="Title.cpp" />
     <ClCompile Include="Witch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

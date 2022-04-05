@@ -27,7 +27,8 @@ MapComponent::MapComponent(Actor* owner, const char* csvPath, int drawOrder)
 	}
 
 	SetAnimation(false);
-	ID2D1Bitmap* bitmap = m_owner->GetGame()->GetDitect2DPtr()->LoadImageFile(L"./Image/base.png");
+	//ID2D1Bitmap* bitmap = m_owner->GetGame()->GetDitect2DPtr()->LoadImageFile(L"./Image/base.png");
+	ID2D1Bitmap* bitmap = m_owner->GetGame()->GetDirect2D()->LoadImageFile(L"./Image/base.png");
 	if (bitmap) { SetBitmap(bitmap, 16, 16); }
 }
 

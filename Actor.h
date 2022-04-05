@@ -10,6 +10,7 @@ public:
 	Actor(Game* game);
 	~Actor();
 
+	virtual void ProcessInput(const BYTE* input) {};
 	virtual void UpdateActor(float deltaTime, const BYTE* input);
 	Game* GetGame()
 	{
