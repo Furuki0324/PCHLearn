@@ -1,23 +1,26 @@
 #pragma once
 
 /*‘O•ûéŒ¾*/
+class BaseScene;
 class Game;
 class Component;
 
 class Actor
 {
 public:
-	Actor(Game* game);
-	~Actor();
+	Actor(BaseScene* scene, int updateOrder = 100);
+	virtual ~Actor();
+	int GetUpdateOrder() { return m_updateOrder; }
 
 	virtual void ProcessInput(const BYTE* input) {};
-	virtual void UpdateActor(float deltaTime, const BYTE* input);
-	Game* GetGame()
+	virtual void UpdateActor(float deltaTime);
+
+	BaseScene* GetScene()
 	{
-		if (m_game) { return m_game; }
+		if (m_scene) { return m_scene; }
 		else
 		{
-			std::cout << "No game." << std::endl;
+			std::cout << "Don't have any scene." << std::endl;
 			return nullptr;
 		}
 	}
@@ -31,12 +34,15 @@ public:
 
 	void AddComponent(Component* component);
 	void RemoveComponent(Component* component);
+	void UpdateComponent(float deltaTime);
 
 protected:
 	const Vector2 LocationWorldToScreen(const Vector2& worldLocation, const Vector2& camera);
 
 protected:
-	Game* m_game;
+	BaseScene* m_scene;
+	int m_updateOrder;
+
 	float m_moveSpeed;
 	Vector2 m_worldLocation;
 	Vector2 m_screenLocation;

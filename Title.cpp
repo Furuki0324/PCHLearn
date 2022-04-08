@@ -7,6 +7,11 @@ TitleScene::TitleScene(Application* app)
 	std::cout << "Create Title." << std::endl;
 }
 
+bool TitleScene::InitScene()
+{
+	return true;
+}
+
 void TitleScene::RunLoop()
 {
 	BYTE key[256];
@@ -20,4 +25,9 @@ void TitleScene::RunLoop()
 	{
 		p_app->ChangeScene(Application::Scene::game);
 	}
+}
+
+void TitleScene::ExitScene()
+{
+
 }

@@ -9,7 +9,6 @@ Component::Component(Actor* owner)
 
 Component::~Component()
 {
-	std::cout << "component destructer.\n";
 	m_owner->RemoveComponent(this);
 }
 

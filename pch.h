@@ -30,9 +30,9 @@
 #include <cri_le_atom_wasapi.h>
 #include <cri_le_atom.h>
 
-#ifdef _DEBUG
+
 #include <iostream>
-#endif
+
 
 /*CRI ADX2 LEデータディレクトリへのパス*/
 #define PATH	"../PCHLearn/CRI/Public/"

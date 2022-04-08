@@ -2,33 +2,31 @@
 #include "Game.h"
 #include "Component.h"
 
-Actor::Actor(Game* game)
-	:m_game(game)
-	,m_moveSpeed(0.0f)
-	,m_worldLocation(Vector2::Zero)
-	,m_screenLocation(Vector2::Zero)
+Actor::Actor(BaseScene* scene, int updateOrder)
+	: m_scene(scene)
+	, m_updateOrder(updateOrder)
+	, m_moveSpeed(0.0f)
+	, m_worldLocation(Vector2::Zero)
+	, m_screenLocation(Vector2::Zero)
 {
-	m_game->AddActor(this);
+	m_scene->AddActor(this);
 }
 
 Actor::~Actor()
 {
-	m_game->RemoveActor(this);
+	m_scene->RemoveActor(this);
 	while (!m_components.empty())
 	{
 		delete m_components.back();
 	}
 }
 
-void Actor::UpdateActor(float deltaTime, const BYTE* input)
+void Actor::UpdateActor(float deltaTime)
 {
 	/*コンポーネントが更新される前にスクリーン座標に変換*/
-	m_screenLocation = LocationWorldToScreen(m_worldLocation, m_game->GetCameraOrigin());
+	m_screenLocation = LocationWorldToScreen(m_worldLocation, m_scene->GetCameraOrigin());
 
-	for (Component* component : m_components)
-	{
-		component->UpdateComponent(deltaTime);
-	}
+	UpdateComponent(deltaTime);
 }
 
 const Vector2 Actor::LocationWorldToScreen(const Vector2& worldLocation, const Vector2& camera)
@@ -47,6 +45,13 @@ void Actor::RemoveComponent(Component* component)
 	if (iter != m_components.end()) 
 	{
 		m_components.erase(iter); 
-		std::cout << "erase component.\n";
+	}
+}
+
+void Actor::UpdateComponent(float deltaTime)
+{
+	for (Component* component : m_components)
+	{
+		component->UpdateComponent(deltaTime);
 	}
 }

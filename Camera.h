@@ -1,17 +1,16 @@
 #pragma once
+#include "Actor.h"
 
-/*ëOï˚êÈåæ*/
-class Actor;
+class BaseScene;
 
-class Camera
+class Camera : public Actor
 {
 public:
-	Camera(unsigned int windowWidth, unsigned int windowHeight, unsigned int stageWidth, unsigned int stageHeight);
+	Camera(BaseScene* scene, unsigned int windowWidth, unsigned int windowHeight, unsigned int stageWidth, unsigned int stageHeight);
 	~Camera();
 
-	void UpdateCamera();
+	void UpdateActor(float deltaTime) override;
 
-	const Vector2& GetLocation() const { return m_location; }
 	const Vector2& GetOrigin();
 	void SetFollowTarget(Actor* actor);
 
@@ -20,7 +19,6 @@ private:
 	unsigned int m_windowHeight;
 	unsigned int m_stageWidth;
 	unsigned int m_stageHeight;
-	Vector2 m_location;
 	Vector2 m_origin;
 	Actor* p_followTarget;
 };

@@ -139,7 +139,6 @@ ID2D1Bitmap* Direct2D::LoadImageFile(LPCWSTR path)
 
 void Direct2D::Render()
 {
-	//std::cout << "Target:" << m_spriteComponents.size() << std::endl;
 	pRT->BeginDraw();
 	pRT->Clear(D2D1::ColorF(D2D1::ColorF::Blue));
 
@@ -170,5 +169,5 @@ void Direct2D::AddSpriteComponent(SpriteComponent* sprite)
 void Direct2D::RemoveSpriteComponent(SpriteComponent* sprite)
 {
 	auto iter = std::find(m_spriteComponents.begin(), m_spriteComponents.end(), sprite);
-	m_spriteComponents.erase(iter);
+	if (iter != m_spriteComponents.end()) { m_spriteComponents.erase(iter); }
 }

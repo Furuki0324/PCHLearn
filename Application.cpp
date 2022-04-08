@@ -122,7 +122,7 @@ void Application::ChangeScene(Scene scene)
 
 	case Scene::game:
 		std::cout << "New scene is game." << std::endl;
-		p_playScene.reset(new Game(this, 640, 480));
+		p_playScene.reset(new GameScene(this, m_windowWidth, m_windowHeight));
 		break;
 	}
 }

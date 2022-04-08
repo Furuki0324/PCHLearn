@@ -1,6 +1,6 @@
 #include "SpriteComponent.h"
 #include "Actor.h"
-#include "Game.h"
+#include "BaseScene.h"
 #include "Direct2D.h"
 
 SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
@@ -9,13 +9,13 @@ SpriteComponent::SpriteComponent(Actor* owner, int updateOrder)
 	,m_currentSprite(0)
 	,m_isAnimation(false)
 {
-	m_owner->GetGame()->GetDirect2D()->AddSpriteComponent(this);
+	m_owner->GetScene()->GetDirect2D()->AddSpriteComponent(this);
 	wait = 0;
 }
 
 SpriteComponent::~SpriteComponent()
 {
-	m_owner->GetGame()->GetDirect2D()->RemoveSpriteComponent(this);
+	m_owner->GetScene()->GetDirect2D()->RemoveSpriteComponent(this);
 }
 
 void SpriteComponent::UpdateComponent(float deltaTime)
